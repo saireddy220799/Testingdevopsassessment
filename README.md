@@ -1,1 +1,1 @@
-echo "# Retail Platform" > README.md
+echo "# Retail Platform" > README.md"Product search feature" 
