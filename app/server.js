@@ -12,12 +12,6 @@ app.get("/", (req, res) => {
         status: "Running"
     });
 });
-// app.get("/health", (req, res) => {
-//     res.status(500).json({
-//         status: "DOWN",
-//         version: VERSION
-//     });
-// });
 app.get("/payment", (req, res) => {
     res.json({
         payment: "SUCCESS",
@@ -31,6 +25,13 @@ app.get("/health", (req, res) => {
         version: VERSION
     });
 });
+// app.get("/health", (req, res) => {
+//     res.status(500).json({
+//         status: "DOWN",
+//         version: VERSION,
+//         message: "Intentional failure injection for rollback testing"
+//     });
+// });
 
 app.listen(PORT, () => {
     console.log(`Retail Platform ${VERSION} running on port ${PORT}`);
