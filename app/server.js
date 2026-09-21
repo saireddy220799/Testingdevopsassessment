@@ -12,6 +12,12 @@ app.get("/", (req, res) => {
         status: "Running"
     });
 });
+app.get("/health", (req, res) => {
+    res.status(500).json({
+        status: "DOWN",
+        version: VERSION
+    });
+});
 app.get("/payment", (req, res) => {
     res.json({
         payment: "SUCCESS",
