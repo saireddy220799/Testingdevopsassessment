@@ -12,7 +12,13 @@ app.get("/", (req, res) => {
         status: "Running"
     });
 });
-
+app.get("/payment", (req, res) => {
+    res.json({
+        payment: "SUCCESS",
+        message: "Payment processing fixed in version 4.2.1",
+        version: VERSION
+    });
+});
 app.get("/health", (req, res) => {
     res.status(200).json({
         status: "UP",
