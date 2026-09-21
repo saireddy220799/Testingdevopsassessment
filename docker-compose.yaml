@@ -1,0 +1,15 @@
+services:
+  retail-app:
+    image: retail-app:${APP_VERSION}
+    container_name: retail-app
+    ports:
+      - "8081:8081"
+    environment:
+      APP_VERSION: ${APP_VERSION}
+      ENVIRONMENT: ${ENVIRONMENT}
+    networks:
+      - retail-network
+
+networks:
+  retail-network:
+    name: retail-network
