@@ -12,12 +12,6 @@ app.get("/", (req, res) => {
         status: "Running"
     });
 });
-// app.get("/health", (req, res) => {
-//     res.status(500).json({
-//         status: "DOWN",
-//         version: VERSION
-//     });
-// });
 app.get("/payment", (req, res) => {
     res.json({
         payment: "SUCCESS",
@@ -25,10 +19,17 @@ app.get("/payment", (req, res) => {
         version: VERSION
     });
 });
+// app.get("/health", (req, res) => {
+//     res.status(200).json({
+//         status: "UP",
+//         version: VERSION
+//     });
+// });
 app.get("/health", (req, res) => {
-    res.status(200).json({
-        status: "UP",
-        version: VERSION
+    res.status(500).json({
+        status: "DOWN",
+        version: VERSION,
+        message: "Intentional failure injection for rollback testing"
     });
 });
 
