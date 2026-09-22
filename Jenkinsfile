@@ -141,20 +141,40 @@ pipeline {
                 }
             }
             steps {
-                bat """
-                    @echo off
-                    echo ==========================================
-                    echo FINAL PRODUCTION HEALTH CHECKS 
-                    echo ==========================================
-                    ping 127.0.0.1 -n 11 >nul
-                    echo.
-                    docker inspect --format="{{.State.Health.Status}}" %PRODUCTION_CONTAINER%
-                    echo.
-                    echo Final production container:
-                    docker ps --filter "name=%PRODUCTION_CONTAINER%"
-                """
+                script {
+                    int maxAttempts = 12
+                    boolean healthy = false
+                    for (int i = 1; i <= maxAttempts; i++) {
+                        def status = bat(
+                            script: """
+                                @echo off
+                                "C:/Users/DELL/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe" inspect --format="{{.State.Health.Status}}" ${CONTAINER_NAME}-new
+                            """,
+                            returnStdout: true
+                        ).trim()
+                        echo "Health check attempt ${i}: ${status}"
+                        if (status == "healthy") {
+                            healthy = true
+                            echo "Container is healthy."
+                            break
+                        }
+                        if (status == "unhealthy") {
+                            echo "Container is unhealthy."
+                            break
+                        }
+                        sleep 5
+                    }
+                    if (!healthy) {
+                        currentBuild.result = 'FAILURE'
+                        env.ROLLBACK_REQUIRED = 'true'
+
+                        echo "v4.2.2 health check FAILED."
+                        echo "Rollback is required."
+                    }
+                }
             }
         }
+
         stage('Switch Production') {
             when {
                 expression {
