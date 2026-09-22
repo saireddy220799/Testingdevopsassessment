@@ -144,7 +144,7 @@ pipeline {
                 bat """
                     @echo off
                     echo ==========================================
-                    echo FINAL PRODUCTION HEALTH CHECK
+                    echo FINAL PRODUCTION HEALTH CHECKS
                     echo ==========================================
                     ping 127.0.0.1 -n 11 >nul
                     echo.
