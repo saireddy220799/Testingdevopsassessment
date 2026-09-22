@@ -192,7 +192,7 @@ pipeline {
         stage('Rollback') {
             when {
                 expression {
-                    params.DEPLOYMENT_ACTION == 'ROLLBACK'
+                    params.DEPLOYMENT_ACTION == 'ROLLBACK' ||
                     env.ROLLBACK_REQUIRED == 'true'
                 }
             }
