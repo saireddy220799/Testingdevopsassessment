@@ -193,6 +193,7 @@ pipeline {
             when {
                 expression {
                     params.DEPLOYMENT_ACTION == 'ROLLBACK'
+                    env.ROLLBACK_REQUIRED == 'true'
                 }
             }
             steps {
@@ -203,12 +204,7 @@ pipeline {
                         "C:/Users/DELL/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe" stop ${CONTAINER_NAME} || exit 0
                         "C:/Users/DELL/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe" rm ${CONTAINER_NAME} || exit 0
 
-                        "C:/Users/DELL/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe" run -d ^
-                        --name ${CONTAINER_NAME} ^
-                        --network ${NETWORK_NAME} ^
-                        -p ${PORT}:8081 ^
-                        -e ENVIRONMENT=${params.ENVIRONMENT} ^
-                        ${env.PREVIOUS_IMAGE}
+                        "C:/Users/DELL/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe" rename ${CONTAINER_NAME}-new ${CONTAINER_NAME}
                     """
                 }
             }
